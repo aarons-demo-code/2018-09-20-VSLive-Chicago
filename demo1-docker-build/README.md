@@ -42,5 +42,13 @@ You'll need to have write credentials to do the push.
 Make sure you've built or pulled the app, and then do this:
 
 ```console
-docker run aaronsdemoimages/vslivechicago2018:demo1
+docker run -p 9090:9090 aaronsdemoimages/vslivechicago2018:demo1
 ```
+
+After it's running, it should have logs that end with:
+
+```console
+ballerina: started HTTP/WS endpoint 0.0.0.0:9090
+```
+
+Then, open a new terminal window or browser and access `http://localhost:9090/hello/sayHello`
