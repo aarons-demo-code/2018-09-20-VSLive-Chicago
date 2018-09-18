@@ -18,5 +18,8 @@ services:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: minio123
   all:
-    image: aaronsdemoimages/vslivechicago2018:demo1
+    build:
+      context: .
+    ports:
+      - "8000:8000"
     depends_on: [redis, mongo, minio]

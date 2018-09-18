@@ -19,7 +19,7 @@ automatically, with a single command.
 To launch all these services, run:
 
 ```console
-docker-compose -p vslive3 up -d all
+docker-compose -p vslive3 up --build all
 ```
 
 All 3 services and the app were launched in the background and will be 
