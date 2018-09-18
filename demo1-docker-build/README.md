@@ -3,9 +3,6 @@
 This demo shows how to build a docker image from an app, and push it
 to [Docker Hub](https://hub.docker/com) (a popular Docker image registry).
 
-You'll need [Docker](https://www.docker.com/) installed before following these directions. See [here](https://www.docker.com/products/docker-desktop) to
-install.
-
 # About the App
 
 The app we're working with is a tiny HTTP server, written using the 
