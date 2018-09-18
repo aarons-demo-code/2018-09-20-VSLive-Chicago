@@ -1,0 +1,22 @@
+version: '3'
+services:
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+  mongo:
+    image: mongo:3.7.9-jessie
+    ports:
+      - 27017:27017
+  minio:
+    image: minio/minio:latest
+    command: server /data
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+  all:
+    image: aaronsdemoimages/vslivechicago2018:demo1
+    depends_on: [redis, mongo, minio]
