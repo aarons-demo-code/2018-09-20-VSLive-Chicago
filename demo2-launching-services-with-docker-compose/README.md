@@ -23,7 +23,7 @@ a database, a cache and a cloud object storage system, for example.
 To launch all these services, run:
 
 ```console
-docker-compose -p vslive up -d all
+docker-compose -p vslive2 up -d all
 ```
 
 All 3 services were launched in the background and will be starting up.
@@ -36,5 +36,5 @@ docker ps
 When you're done, run the following to tear everything down:
 
 ```console
-docker-compose -p vslive down
+docker-compose -p vslive2 down
 ```
