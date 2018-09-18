@@ -39,7 +39,7 @@ on Docker Hub)
 Make sure you've built or pulled the image, and then do this:
 
 ```console
-docker run -p 9090:9090 aaronsdemoimages/vslivechicago2018:demo1
+docker run -p 9090:9090 --name vslive --rm aaronsdemoimages/vslivechicago2018:demo1
 ```
 
 After it's running, it should have logs that end with:
@@ -50,6 +50,11 @@ ballerina: started HTTP/WS endpoint 0.0.0.0:9090
 
 Then, open a new terminal window or browser and access `http://localhost:9090/hello/sayHello` to see the app running!
 
+To shut it down, run:
+
+```console
+docker rm -f vslive
+```
 
 # To Pull the App
 
