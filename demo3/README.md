@@ -14,6 +14,21 @@ launches and configures [MongoDB](https://www.mongodb.com/),
 [Redis](https://redis.io/), [Minio](https://minio.io/), and the app
 automatically, with a single command.
 
+# The Application Container
+
+The application container is built from the `Dockerfile` in this directory, and
+it's pushed to Docker Hub as `aaronsdemoimages/vslivechicago2018:demo3`. But you
+can build it yourself too! To do that, run:
+
+```console
+docker build -t aaronsdemoimages/vslivechicago2018:demo3 .
+```
+
+You can also use a different image name, too. Just replace 
+`aaronsdemoimages/vslivechicago2018:demo3` with your own name. The 
+Docker Compose file in here will always use that image though, so if you use the 
+`docker-compose` commands below, you'll need to build that image to see changes.
+
 # Launch The Services
 
 To launch all these services, run:

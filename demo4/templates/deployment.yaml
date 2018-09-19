@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vslive2018
+spec:
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: vslive2018
+  template:
+    metadata:
+      labels:
+        app: vslive2018
+    spec:
+      containers:
+        - name: server
+          image: "aaronsdemoimages/vslivechicago2018:demo1"
+          imagePullPolicy: "{{ .Values.imagePullPolicy }}"
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+              name: http

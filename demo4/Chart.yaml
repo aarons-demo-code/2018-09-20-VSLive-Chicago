@@ -1,0 +1,7 @@
+name: VSLive2018
+home: https://github.com/aarons-demo-code/2018-09-20-VSLive-Chicago
+version: 0.0.1
+description: Kubernetes Sample App for VSLive Chicago 2018
+maintainers:
+  - name: Aaron Schlesinger
+    email: arschles@gmail.com
