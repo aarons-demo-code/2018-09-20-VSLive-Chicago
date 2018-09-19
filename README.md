@@ -1,5 +1,7 @@
 # Demo Code from VSLive Chicago
 
+[![Build Status](https://dev.azure.com/aarons-demo-code/2018-09-20-VSLive-Chicago/_apis/build/status/aarons-demo-code.2018-09-20-VSLive-Chicago)](https://dev.azure.com/aarons-demo-code/2018-09-20-VSLive-Chicago/_build/latest?definitionId=2)
+
 Welcome VSLive 2018! :heart:
 
 This repository has code and instructions from demos that I gave at
