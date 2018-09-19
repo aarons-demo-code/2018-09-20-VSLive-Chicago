@@ -10,9 +10,8 @@ production.
 
 The example here contains a 
 [Docker compose file](https://docs.docker.com/compose/compose-file/) that 
-launches and configures [MongoDB](https://www.mongodb.com/), 
-[Redis](https://redis.io/), [Minio](https://minio.io/), and the app
-automatically, with a single command.
+launches and configures [Redis](https://redis.io/) and the app,
+automatically, with one command.
 
 # The Application Container
 
@@ -29,15 +28,28 @@ You can also use a different image name, too. Just replace
 Docker Compose file in here will always use that image though, so if you use the 
 `docker-compose` commands below, you'll need to build that image to see changes.
 
+The app is written in [Python](https://www.python.org/) using 
+[Flask](http://flask.pocoo.org/docs/1.0/). It's very simple - it just
+listens on port 5000 to GET requests to `/`. When it gets a request, it 
+generates a random number, stores it in redis, and returns the random number 
+that it stored.
+
+The important part is that it talks to Redis :smile:. With one command (which
+we'll see below), we can set up our entire app and redis, so we can begin testing
+immediately in an environment that looks a lot like what we'll have in
+production.
+
+That's power!
+
 # Launch The Services
 
 To launch all these services, run:
 
 ```console
-docker-compose -p vslive3 up --build all
+docker-compose -p vslive3 up all
 ```
 
-All 3 services and the app were launched in the background and will be 
+All the services and the app were launched in the background and will be 
 starting up. See them with:
 
 ```console

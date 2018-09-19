@@ -1,26 +1,14 @@
-import SimpleHTTPServer
-import SocketServer
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from flask import Flask
+import random
 import redis
 
-PORT = 8000
+r = redis.StrictRedis(host='redis', port=6379, db=0)
 
-r = redis.StrictRedis(host='localhost', port=6379, db=0)
+app = Flask(__name__)
 
-counter = 1
+@app.route("/")
+def counter():
+    rand = random.randint(1, 101)
+    r.set("number", rand)
+    return "the random number set into redis was %d\n" % rand
 
-class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
-
-    def do_GET(self):
-        r.Set("thecounter", counter)
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b'Hey VSLive! thecounter = ' + counter)
-
-# Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-Handler = SimpleHTTPRequestHandler
-
-httpd = SocketServer.TCPServer(("", PORT), Handler)
-
-print "serving at port", PORT
-httpd.serve_forever()
