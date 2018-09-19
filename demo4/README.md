@@ -80,9 +80,120 @@ from inside this directory:
 helm install --name vslive2018 --namespace vslive2018 ./
 ```
 
-To uninstall your application after you've installed it, run the following
-command from inside this directory:
+After this command completes, you'll see some output that looks like this:
+
+```console
+NAME:   vslive2018
+LAST DEPLOYED: Wed Sep 19 17:52:23 2018
+NAMESPACE: vslive2018
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/Service
+NAME        TYPE          CLUSTER-IP    EXTERNAL-IP  PORT(S)       AGE
+vslive2018  LoadBalancer  10.0.238.213  <pending>    80:32097/TCP  1s
+
+==> v1beta1/Deployment
+NAME        DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+vslive2018  3        3        3           0          1s
+
+==> v1/Pod(related)
+NAME                         READY  STATUS             RESTARTS  AGE
+vslive2018-566b85d965-4mfv8  0/1    ContainerCreating  0         1s
+vslive2018-566b85d965-knjtt  0/1    ContainerCreating  0         1s
+vslive2018-566b85d965-qq2bj  0/1    ContainerCreating  0         1s
+```
+
+That's the app's topology and its status, all in one!
+
+
+## Checking the App's Status
+
+Since Kubernetes is always watching (and things fail, etc...), 
+your app's status might change any time. 
+You can check the current status whenever you want by running:
+
+```console
+helm status vslive2018
+```
+
+For example, if you wait a few seconds and run that `helm status` command 
+again, your new output will include:
+
+```console
+==> v1/Pod(related)
+NAME                         READY  STATUS   RESTARTS  AGE
+vslive2018-566b85d965-4mfv8  1/1    Running  0         2m
+vslive2018-566b85d965-knjtt  1/1    Running  0         2m
+vslive2018-566b85d965-qq2bj  1/1    Running  0         2m
+```
+
+The `STATUS` column was set to `ContainerCreating` before, and now it's set to `Running`. That means that your containers are completely up and running now!
+
+Since there are three rows, there are three _replicas_ (containers) of your app
+running. That's super useful for high availability.
+
+Now, if you wait a few _more_ seconds and run `helm status` again, the output
+should include:
+
+```console
+==> v1/Service
+NAME        TYPE          CLUSTER-IP    EXTERNAL-IP   PORT(S)       AGE
+vslive2018  LoadBalancer  10.0.238.213  40.121.91.81  80:32097/TCP  2m
+```
+
+That `EXTERNAL-IP` is now filled in. Before, it was `<pending>`. The IP there
+is _public_! Behind the scenes, Kubernetes went and requested from Azure
+a public load balancer. When that operation finished, Azure returned the public
+IP and Kubernetes fetched it and showed it to you :smile:.
+
+## Testing the App Out
+
+Now that you have a public IP, your app is running on the public internet.
+We're running the app from [demo 1](/demo1). That's the
+`aaronsdemoimages/vslivechicago2018:demo1` container that serves a 
+`GET /hello/sayHello` endpoint.
+
+In demo 1, we had to access that server on port 9090, but Kubernetes has 
+taken care of all that networking for us and is exposing the server on 
+the standard HTTP port 80.
+
+So now you can go to the public IP and do a `GET /hello/sayHello` and you 
+should see the same output. Here's what it looks like with 
+[`curl`](https://curl.haxx.se/docs/manpage.html) on my Macbook with that above
+IP address:
+
+```console
+curl http://40.121.91.81/hello/sayHello
+Hello, VSLive!
+```
+
+It worked!
+
+# Cleaning Up
+
+Helm makes it really easy to delete your entire app from Kubernetes. Be careful with this
+because there is no undo! It's really useful for testing your app, but 
+if you do it in production, you can bring your entire app to a halt
+(I've done that before :frown:)
+
+For this demo, we should definitely delete the app and free up resources
+in the cluster. Helm makes that easy:
 
 ```console
 helm delete --purge vslive2018
 ```
+
+Now the app is gone from Kubernetes, but your Kubernetes cluster is still
+running on AKS. You can leave the cluster up and keep playing around,
+or you can delete it and free up the Azure resources it was using
+(once you do this, Azure won't charge you for those resources anymore either 
+:smile:). Do the cleanup with this:
+
+```console
+az aks delete --name vslive --resource-group vslive
+```
+
+After that completes, everything will be cleaned up.
+
+Hope to see you back here soon!
