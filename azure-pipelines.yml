@@ -7,8 +7,21 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: 'your-container-image-name:$(build.buildId)'
+  imageName: 'aaronsdemoimages/vslivechicago2018'
 
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+- script: |
+    ./scripts/dockerhub-login.sh
+    docker build -f demo1/Dockerfile -t $(imageName):demo1 ./demo1
+    docker push $(imageName):demo1
+  displayName: build and push the demo1 docker image
+  env:
+    DOCKERHUB_PASSWORD: $(dockerHub.password)
+- script: |
+    ./scripts/dockerhub-login.sh
+    docker build -f demo3/Dockerfile -t $(imageName):demo3 ./demo3
+    docker push $(imageName):demo3
+  displayName: build and push the demo3 docker image
+  env:
+    DOCKERHUB_PASSWORD: $(dockerHub.password)
+  
