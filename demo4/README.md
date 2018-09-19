@@ -39,10 +39,10 @@ using
 use these commands to set everything up:
 
 ```console
-az group create --name vslive2018 --location eastus
-az aks create --resource-group vslive2018 --name vslive2018Cluster --node-count 3 --enable-addons monitoring --generate-ssh-keys
+az group create --name vslive --location eastus
+az aks create --resource-group vslive --name vslive --node-count 3 --enable-addons monitoring --generate-ssh-keys
 az aks install-cli
-az aks get-credentials --resource-group vslive2018 --name vslive2018Cluster
+az aks get-credentials --resource-group vslive --name vslive
 ```
 
 See the 
