@@ -18,40 +18,23 @@ you don't need to know about the technology at all in order to run it :smile:!
 
 The rest of this documentation shows how to build, run, pull, and push the app.
 
-# To Build the App
+# To Build the Image
 
-Run this to build the app:
+Run this to build the image:
 
 ```console
 docker build -t aaronsdemoimages/vslivechicago2018:demo1 .
 ```
 
-# To Run the App
+# To Push the Image
 
-After you've built the image, you'll probably want to run it. Same goes for 
-after it's pushed (hint: it's already pushed to 
-[`aaronsdemoimages/vslivechicago2018:demo1`](https://hub.docker.com/r/aaronsdemoimages/vslivechicago2018/) 
-on Docker Hub)
-
-Make sure you've built or pulled the image, and then do this:
+After you've built the image, run the following to push it up to Docker Hub.
 
 ```console
-docker run -p 9090:9090 --name vslive --rm aaronsdemoimages/vslivechicago2018:demo1
+docker push aaronsdemoimages/vslivechicago2018:demo1
 ```
 
-After it's running, it should have logs that end with:
-
-```console
-ballerina: started HTTP/WS endpoint 0.0.0.0:9090
-```
-
-Then, open a new terminal window or browser and access `http://localhost:9090/hello/sayHello` to see the app running!
-
-To shut it down, run:
-
-```console
-docker rm -f vslive
-```
+You'll need to have write credentials to do the push.
 
 # To Pull the App
 
@@ -65,13 +48,37 @@ To pull it down to your machine, run:
 docker pull aaronsdemoimages/vslivechicago2018:demo1
 ```
 
-# To Push the App
+# To Run the App
 
-After you've built the app, run the following to push it up to Docker Hub.
+After you've built the image, you'll probably want to run it. Same goes for 
+after it's pushed (hint: it's already pushed to 
+[`aaronsdemoimages/vslivechicago2018:demo1`](https://hub.docker.com/r/aaronsdemoimages/vslivechicago2018/) 
+on Docker Hub)
+
+Make sure you've built or pulled the image, and then do this:
 
 ```console
-docker push aaronsdemoimages/vslivechicago2018:demo1
+docker run -p 9090:9090 -d --name vslive --rm aaronsdemoimages/vslivechicago2018:demo1
 ```
 
-You'll need to have write credentials to do the push.
+This will run it in the background. To get logs, run:
 
+```console
+docker logs -f vslive
+```
+
+This command will "follow" the logs, so the command won't exit unless you 
+"ctrl+c" it. Once you have the logs showing, you'll see a line that indicates
+the server is listening:
+
+```console
+ballerina: started HTTP/WS endpoint 0.0.0.0:9090
+```
+
+Then, open a new terminal window or browser and access `http://localhost:9090/hello/sayHello` to see the app running!
+
+To shut it down, run:
+
+```console
+docker rm -f vslive
+```
